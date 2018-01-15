@@ -1,18 +1,48 @@
-jx.class('HTTP', function(){
+jx.class('HTTP', function () {
+
     var EventEmitter = jx.use('EventEmitter');
 
-    var HTTP = function(){
+    //--------------------------------------------------------------------------
+    //
+    // Construtor da classe
+    //
+    //--------------------------------------------------------------------------
+
+    /**
+     * Cria um novo objeto HTTP
+     */
+    var HTTP = function () {
         EventEmitter.call(this);
     };
+
     HTTP.prototype = jx.extends(EventEmitter.prototype);
     HTTP.prototype.constructor = HTTP;
 
-    HTTP.prototype.load = function(url, method){
+    //--------------------------------------------------------------------------
+    //
+    //  Métodos da classe
+    //
+    //--------------------------------------------------------------------------
 
-        if(typeof(url) != 'string')
-            throw 'Erro: O parâmetro url deve ser uma string'; 
+    //---------------------------------
+    // load
+    //---------------------------------
 
-        if(method == null)
+    /**
+     * Realiza uma requisição de carregamento HTTP.
+     * 
+     * @param {String} url A url a ser carregada.
+     * 
+     * @param {String} method O método usado pela requisição.
+     * 
+     * @throws {Error} Se o parâmetro <code>url</code> não for uma string.
+     */
+    HTTP.prototype.load = function (url, method) {
+
+        if (typeof (url) != 'string')
+            throw 'Erro: O parâmetro url deve ser uma string';
+
+        if (method == null)
             method = 'get';
 
         this._httpRequest = new XMLHttpRequest();
@@ -22,7 +52,11 @@ jx.class('HTTP', function(){
         this._httpRequest.addEventListener('load', this._onLoad.bind(this));
     };
 
-    HTTP.prototype._onLoad = function(event){
+    /**
+     * @private
+     * Chamamos esse metodo quando o carregamento é concluido.
+     */
+    HTTP.prototype._onLoad = function (event) {
         this.data = this._httpRequest.responseText;
         this.emit('loadComplete', {
             data: this.data
