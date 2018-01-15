@@ -16,7 +16,7 @@
             }
 
             Person.prototype.toString = function(){
-                return this.constructor.name+':{name:"'+this.name+'"}';
+                return this.constructor.name+':{name:"'+this.getName()+'"}';
             }
 
             Person.prototype.getName = function(){
