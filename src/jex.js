@@ -39,10 +39,34 @@ window.jx = {
     //---------------------------------
 
     /**
+     * Returns a copy of the specified class prototype.
+     * 
+     * @param {Object} prototype The class prototype to copy.
+     * 
+     * @returns {Object} A copy of the specified class prototype.
+     */
+    extends: function(prototype){
+        var newProto = {};
+
+        for(var key in prototype){
+            newProto[key] = prototype[key];
+        }
+
+        return newProto;
+    },
+
+    //---------------------------------
+    // use
+    //---------------------------------
+
+    /**
      * Returns the class definition that registered with specified name.
      * 
      * @param {String} name The class name. The class name must be an
      * alphanumeric string beginning with a letter.
+     * 
+     * @returns {Function} The class definition that registered with 
+     * specified name.
      * 
      * @throws {ArgumentError} If the class name must not be an alphanumeric 
      * string beginning with a letter.
