@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="../../src/jex.js"></script>
+    <script src="../../src/core/EventEmitter.js"></script>
+    <script src="../../src/net/HTTP.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="demo"></div>
+    <script>
+
+        var HTTP = jx.use('HTTP');
+
+        var http = new HTTP();
+
+        http.load('data.txt');
+
+        http.on('loadComplete', function(eventObject){
+            document.getElementById('demo').innerHTML = eventObject.data;
+        });
+
+    </script>
+
+</body>
+</html>
