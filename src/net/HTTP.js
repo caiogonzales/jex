@@ -39,6 +39,7 @@ jx.class('HTTP', function () {
 
         delete this._httpRequest;
     }
+    
     //---------------------------------
     // load
     //---------------------------------
