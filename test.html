@@ -5,45 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="./src/jex.js"></script>
+    <script src="./src/Person.js"></script>
+    <script src="./src/Student.js"></script>
     <title>Document</title>
 </head>
 <body>
     <script>
-        jx.class('Person', function(){
-            var Person = function(name){
-                this._name = name;
-                console.log(this.toString());
-            }
-
-            Person.prototype.toString = function(){
-                return this.constructor.name+':{name:"'+this.getName()+'"}';
-            }
-
-            Person.prototype.getName = function(){
-                return this._name;
-            }
-
-            return Person;
-        });
-
-        jx.class('Student', function(){
-            var Person = jx.use('Person');
-
-            var Student = function(name){
-                Person.call(this, name);
-            };
-
-            Student.prototype = jx.extends(Person.prototype);
-            Student.prototype.constructor = Student;
-
-            return Student;
-        });
-
         var Person = jx.use('Person');
         var Student = jx.use('Student');
 
-        var person = new Person("Bob");
-        var student = new Student("Mary");
+        var person1 = new Person('Gonza', 1991);
+        var student1 = new Student('Don', 1986);
     </script>
 </body>
 </html>
