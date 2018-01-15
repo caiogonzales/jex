@@ -20,10 +20,26 @@
 
         http.load('data.txt');
 
-        http.on('loadComplete', function(eventObject){
+        http.on('load', function(eventObject){
             document.getElementById('demo').innerHTML = eventObject.data;
         });
 
+        http.on('progress', function(eventObject){
+            http.abort();
+            var loaded = eventObject.loaded;
+            var total = eventObject.total;
+
+            var percent = loaded / total;
+            console.log(percent);
+        });
+
+        http.on('error',function(eventObject){
+            console.log(eventObject);
+        });
+
+        http.on('abort', function(eventObject){
+            console.log(eventObject);
+        });
     </script>
 
 </body>

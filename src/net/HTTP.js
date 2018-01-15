@@ -25,6 +25,21 @@ jx.class('HTTP', function () {
     //--------------------------------------------------------------------------
 
     //---------------------------------
+    // abort
+    //---------------------------------
+
+    /**
+     * Este metodo é chamado para abortar o processo de carregamento.
+     */
+    HTTP.prototype.abort = function(){
+        if(this._httpRequest == null)
+            return;
+
+        this._httpRequest.abort();
+
+        delete this._httpRequest;
+    }
+    //---------------------------------
     // load
     //---------------------------------
 
@@ -46,10 +61,13 @@ jx.class('HTTP', function () {
             method = 'get';
 
         this._httpRequest = new XMLHttpRequest();
+        this._httpRequest.addEventListener('load', this._onLoad.bind(this));
+        this._httpRequest.addEventListener('progress',this._onProgress.bind(this));
+        this._httpRequest.addEventListener('error', this._onError.bind(this));
+        this._httpRequest.addEventListener('abort', this._onAbort.bind(this));
         this._httpRequest.responseType = 'text';
         this._httpRequest.open(method, url);
-        this._httpRequest.send();
-        this._httpRequest.addEventListener('load', this._onLoad.bind(this));
+        this._httpRequest.send(null);
     };
 
     /**
@@ -58,10 +76,37 @@ jx.class('HTTP', function () {
      */
     HTTP.prototype._onLoad = function (event) {
         this.data = this._httpRequest.responseText;
-        this.emit('loadComplete', {
+        this.emit('load', {
             data: this.data
         });
     };
 
+    /**
+     * @private
+     * Chamamos esse metodo para monitorar o processo de carregamento.
+     */
+    HTTP.prototype._onProgress = function(event){
+        this.loaded = event.loaded;
+        this.total  = event.total;
+        this.emit('progress'); 
+    };
+
+    /**
+     * @private
+     * Chamamos esse metodo quando ocorrer um erro durante o processo de carregamento.
+     */
+    HTTP.prototype._onError = function(event){
+        this.emit('error');
+    };
+
+    /**
+     * @private
+     * Esse metodo é chamado quando o metodo abort() é chamado
+     */
+    HTTP.prototype._onAbort = function(event){
+        this.emit('abort')
+    };
+    
     return HTTP;
+
 });
